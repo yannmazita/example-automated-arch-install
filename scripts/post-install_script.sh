@@ -75,14 +75,23 @@ function configurationsPropes()
 {
     case $(cat /etc/hostname) in
         "serveur-web1")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/ntp.conf" -o /etc/ntp.conf
+            systemctl start ntpd.service
+            systemctl enable ntpd.service
+
             systemctl start postgresql.service
             systemctl enable postgresql.service
             ;;
         "serveur-web2")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
+            systemctl start ntpd.service
+            systemctl enable ntpd.service
+
             systemctl start postgresql.service
             systemctl enable postgresql.service
             ;;
         "serveur-temps")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/ntp.conf" -o /etc/ntp.conf
             systemctl start ntpd.service
             systemctl enable ntpd.service
             ;;
@@ -95,11 +104,19 @@ function configurationsPropes()
             su postgres -c "createdb baseDeDonnees -O admin"
             systemctl start postgresql.service
             systemctl enable postgresql.service
+
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/ntp.conf" -o /etc/ntp.conf
+            systemctl start ntpd.service
+            systemctl enable ntpd.service
             ;;
         "serveur-load")
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/haxproxy/haproxy.cfg"
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/haxproxy/haproxy.cfg" -o /etc/haproxy/haproxy.cfg
             systemctl start haproxy.service
             systemctl enable haproxy.service
+            
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/ntp.conf" -o /etc/ntp.conf
+            systemctl start ntpd.service
+            systemctl enable ntpd.service
             ;;
         "client")
             ;;
