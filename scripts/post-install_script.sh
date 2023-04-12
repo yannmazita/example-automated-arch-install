@@ -4,7 +4,7 @@
 # ADRESSE PASTEBIN
 # https://pastebin.com/raw/GRYpUiK6
 # ADRESSE GITHUB
-# https://raw.githubusercontent.com/yannmazita/projet_enfip/main/scripts/post-install_script.sh
+# https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/scripts/post-install_script.sh
 
 # Les variables
 

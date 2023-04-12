@@ -9,7 +9,7 @@
 # ADRESSE PASTEBIN
 # https://pastebin.com/raw/hBYQ2Umm (lien github)
 # ADRESSE GITHUB
-# https://raw.githubusercontent.com/yannmazita/projet_enfip/main/scripts/install_script.sh
+# https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/scripts/install_script.sh
 
 # Les variables
 
