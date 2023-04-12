@@ -5,6 +5,7 @@ Several installation profiles are available, each corresponding to a virtual mac
 A client connects to the serveur-load (load balancer) directing traffic to either serveur-web1 or serveur-web2 (web servers).
 Both these servers are a connected to a single database serveur-bdd (database server).
 Machines have their time synced with serveur-temps (time server).
+An adminitration machine can access the servers through its own network (admin-net) insted of the regular network (intra-net).
 
 ## Virtual machines
 Five virtual machines are currently used in this project:
@@ -18,5 +19,45 @@ Each virtual machine has 3 network interfaces with known names:
 - enp0s3 attached to a bridged adapter (or NAT if network configuration allows)
 - enp0s8 attached to an internal network (admin-net)
 - enp0s9 attached to an internal network (intra-net)
+
+### IPv4 addressing
+Virtual machines in admin-net have these IP addresses:
+- 192.168.0.1 (admin)
+- 192.168.0.2 (serveur-load)
+- 192.168.0.3 (serveur-web1)
+- 192.168.0.4 (serveur-web2)
+- 192.168.0.5 (serveur-bdd)
+- 192.168.0.6 (serveur-temps)
+
+Virtual machines in intra-net have these IP addresses:
+- 192.168.2.2 (serveur-load)
+- 192.168.2.3 (serveur-web1)
+- 192.168.2.4 (serveur-web2)
+- 192.168.2.5 (serveur-bdd)
+- 192.168.2.6 (serveur-temps)
+
+Client's IP address is unimportant.
+
+## Usage
+Configure 5 virtual machines as follow:
+- 1 CPU, 2048 MB (RAM), 50 GB dynamically allocated (HDD), EFI activated, Arch Linux ISO in disc drive.
+- Boot into a machine with the Arch image.
+- Type 
+    ```commandline
+    loadkeys fr-latin9
+    curl -sL $(curl https://pastebin.com/raw/hBYQ2Umm) | bash
+    ```
+- Select the machine you want to install (one of 5 virtual machines) then wait for the machine to restart
+- Log in with root:master
+- Type
+    ```commandline
+    curl -sL $(curl https://pastebin.com/raw/GRYpUiK6) | bash
+    ```
+- Wait for the machine to restart
+- Once the login prompt appears the machine is ready to go.
+
+## To do
+- Configure SSH access.
+- Configure data synchronizing between serveur-web1 and serveur-web2
 
 See ./LICENSE for more information about this project's licence.
