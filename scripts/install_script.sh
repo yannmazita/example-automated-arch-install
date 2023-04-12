@@ -25,7 +25,6 @@ homePart="/dev/sda5"
 #paquetsCommuns="base base-devel linux linux-firmware sudo ssh gnupg ffmpegthumbnailer fd flake8 fzf grub efibootmgr htop i3-wm imv fakeroot kitty less tree mediainfo mktemp unzip tar man bsdtar bat pdftoppm glow w3m i3-wm jgmenu flex linux-headers lua-language-server man-db meson neofetch networkmanager nm-connection-editor nnn ripgrep pinentry trash-cli shellcheck python python-poetry pyright npm shellharden taplo-cli texinfo ttf-jetbrains-mono-nerd otf-fira-sans ttf-amiri adobe-source-han-sans-otc-fonts wget xorg-server xorg-xinit zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting virtualbox-guest-utils nvim"
 #paquetsCommuns="base base-devel linux linux-firmware sudo grub efibootmgr man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting"
 paquetsServeurWeb="postgresql"
-paquetsServeurTemps="ntp"
 paquetsServeurBDD="postgresql"
 paquetsLoadBalancer="haproxy"
 
@@ -85,7 +84,7 @@ function preparerDisques()
 function installerPaquets()
 {
     #pacstrap -K /mnt base base-devel linux linux-firmware
-    pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting neovim git
+    pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting neovim git ntp
 }
 
 function configurerSysteme()
@@ -126,7 +125,6 @@ function installerPaquetsPropres()
             arch-chroot /mnt pacman -S --noconfirm "$paquetsServeurWeb"
             ;;
         3)
-            arch-chroot /mnt pacman -S --noconfirm "$paquetsServeurTemps"
             ;;
         4)
             arch-chroot /mnt pacman -S --noconfirm "$paquetsServeurBDD"

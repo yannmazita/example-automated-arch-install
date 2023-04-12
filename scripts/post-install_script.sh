@@ -83,6 +83,8 @@ function configurationsPropes()
             systemctl enable postgresql.service
             ;;
         "serveur-temps")
+            systemctl start ntpd.service
+            systemctl enable ntpd.service
             ;;
         "serveur-bdd")
             cd /tmp || exit # parce que postgre envoie un message d'erreur inutile
