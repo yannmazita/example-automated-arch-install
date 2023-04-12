@@ -87,8 +87,8 @@ function configurationsPropes()
         "serveur-bdd")
             cd /tmp || exit # parce que postgre envoie un message d'erreur inutile
             su postgres -c "initdb -D /var/lib/postgres/data --data-checksums"
-            curl "https://raw.githubusercontent.com/yannmazita/projet_enfip/main/serveur_bdd/var/lib/postgres/data/pg_hba.conf" -o /var/lib/postgres/data/pg_hba.conf
-            curl "https://raw.githubusercontent.com/yannmazita/projet_enfip/main/serveur_bdd/var/lib/postgres/data/postgresql.conf" -o /var/lib/postgres/data/postgresql.conf
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/pg_hba.conf" -o /var/lib/postgres/data/pg_hba.conf
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/postgresql.conf" -o /var/lib/postgres/data/postgresql.conf
             systemctl enable postgresql.service
             systemctl start postgresql.service
             su postgres -c "createuser admin --superuser"
