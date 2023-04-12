@@ -75,12 +75,12 @@ function configurationsPropes()
 {
     case $(cat /etc/hostname) in
         "serveur-web1")
-            systemctl enable postgresql.service
             systemctl start postgresql.service
+            systemctl enable postgresql.service
             ;;
         "serveur-web2")
-            systemctl enable postgresql.service
             systemctl start postgresql.service
+            systemctl enable postgresql.service
             ;;
         "serveur-temps")
             ;;
@@ -89,13 +89,14 @@ function configurationsPropes()
             su postgres -c "initdb -D /var/lib/postgres/data --data-checksums"
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/pg_hba.conf" -o /var/lib/postgres/data/pg_hba.conf
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/postgresql.conf" -o /var/lib/postgres/data/postgresql.conf
-            systemctl enable postgresql.service
-            systemctl start postgresql.service
             su postgres -c "createuser admin --superuser"
             su postgres -c "createdb baseDeDonnees -O admin"
-            systemctl restart postgresql.service
+            systemctl start postgresql.service
+            systemctl enable postgresql.service
             ;;
         "serveur-load")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/haxproxy/haproxy.cfg"
+            systemctl start haproxy.service
             systemctl enable haproxy.service
             ;;
         "client")
