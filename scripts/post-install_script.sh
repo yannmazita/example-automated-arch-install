@@ -107,10 +107,10 @@ function configurationsPropres()
             sudo su postgres -c "initdb -D /var/lib/postgres/data --data-checksums"
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/pg_hba.conf" -o /var/lib/postgres/data/pg_hba.conf
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/postgresql.conf" -o /var/lib/postgres/data/postgresql.conf
-            sudo su postgres -c "createuser admin --superuser"
-            sudo su postgres -c "createdb baseDeDonnees -O admin"
             sudo systemctl start postgresql.service
             sudo systemctl enable postgresql.service
+            sudo su postgres -c "createuser admin --superuser"
+            sudo su postgres -c "createdb baseDeDonnees -O admin"
 
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/ntp.conf" -o /etc/ntp.conf
             sudo systemctl start ntpd.service
