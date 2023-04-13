@@ -71,7 +71,16 @@ function installerPaquetsPostInstall()
     esac
 }
 
-function configurationsPropes()
+function deployerServeurWeb()
+{
+    su admin -c "mkdir /serv"
+    su admin -c "cd /serv || exit"
+    su admin -c "git clone https://github.com/yannmazita/example-server.git"
+    su admin -c "cd example-server"
+    su admin -c "poetry install"
+}
+
+function configurationsPropres()
 {
     case $(cat /etc/hostname) in
         "serveur-web1")
@@ -81,6 +90,8 @@ function configurationsPropes()
 
             systemctl start postgresql.service
             systemctl enable postgresql.service
+
+            deployerServeurWeb
             ;;
         "serveur-web2")
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
@@ -89,6 +100,8 @@ function configurationsPropes()
 
             systemctl start postgresql.service
             systemctl enable postgresql.service
+
+            deployerServeurWeb
             ;;
         "serveur-temps")
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/ntp.conf" -o /etc/ntp.conf
@@ -130,5 +143,4 @@ function configurationsPropes()
 configurationsReseau
 nmcli connection reload
 installerPaquetsPostInstall
-configurationsPropes
-reboot
+configurationsPropres
