@@ -88,18 +88,12 @@ function configurationsPropres()
             systemctl start ntpd.service
             systemctl enable ntpd.service
 
-            systemctl start postgresql.service
-            systemctl enable postgresql.service
-
             deployerServeurWeb
             ;;
         "serveur-web2")
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
             systemctl start ntpd.service
             systemctl enable ntpd.service
-
-            systemctl start postgresql.service
-            systemctl enable postgresql.service
 
             deployerServeurWeb
             ;;
