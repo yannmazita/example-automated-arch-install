@@ -2,10 +2,10 @@
 Scripts and config files used to automate the installation process of Arch Linux virtual machines according to an educational project.
 ## Abstract
 Several installation profiles are available, each corresponding to a virtual machine instance.
-A client connects to the serveur-load (load balancer) directing traffic to either serveur-web1 or serveur-web2 (web servers).
-Both these servers are a connected to a single database serveur-bdd (database server).
-Machines have their time synced with serveur-temps (time server).
-An adminitration machine can access the servers through its own network (admin-net) insted of the regular network (intra-net).
+The client connects to serveur-load (load balancer) directing traffic to either serveur-web1 or serveur-web2 (web servers).
+Both these servers are connected to a single database serveur-bdd (database server).
+Machines have sync their time serveur-temps (time server).
+An administration machine can access the servers through its own network (admin-net) insted of the regular network (intra-net).
 
 ## Virtual machines
 Five virtual machines are currently used in this project:
