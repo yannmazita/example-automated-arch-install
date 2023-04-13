@@ -48,13 +48,16 @@ Configure 5 virtual machines as follow:
     curl -sL $(curl https://pastebin.com/raw/hBYQ2Umm) | bash
     ```
 - Select the machine you want to install (one of 5 virtual machines) then wait for the machine to restart
-- Log in with root:master
+- Log in with admin:master
 - Type
     ```commandline
     curl -sL $(curl https://pastebin.com/raw/GRYpUiK6) | bash
     ```
-- Wait for the machine to restart
-- Once the login prompt appears the machine is ready to go.
+- Once you're greeted with
+```commandline
+OK !
+```
+you're ready to go. In a web server virtual machine, server deployment is automated and the server is running in the background.
 
 ## To do
 - Configure SSH access.
