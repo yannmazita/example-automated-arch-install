@@ -104,11 +104,11 @@ function configurationsPropres()
             ;;
         "serveur-bdd")
             cd /tmp || exit # parce que postgre envoie un message d'erreur inutile
-            su postgres -c "initdb -D /var/lib/postgres/data --data-checksums"
+            sudo su postgres -c "initdb -D /var/lib/postgres/data --data-checksums"
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/pg_hba.conf" -o /var/lib/postgres/data/pg_hba.conf
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/postgresql.conf" -o /var/lib/postgres/data/postgresql.conf
-            su postgres -c "createuser admin --superuser"
-            su postgres -c "createdb baseDeDonnees -O admin"
+            sudo su postgres -c "createuser admin --superuser"
+            sudo su postgres -c "createdb baseDeDonnees -O admin"
             sudo systemctl start postgresql.service
             sudo systemctl enable postgresql.service
 
