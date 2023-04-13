@@ -59,5 +59,10 @@ Configure 5 virtual machines as follow:
 ## To do
 - Configure SSH access.
 - Configure data synchronizing between serveur-web1 and serveur-web2
+- Configure Daphne
+- Fix the HAProxy server
+- Domain name
+- (DNS server)
+- (RAID)
 
 See ./LICENSE for more information about this project's licence.
