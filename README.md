@@ -61,6 +61,7 @@ Configure 5 virtual machines as follow:
 - Configure data synchronizing between serveur-web1 and serveur-web2
 - Configure Daphne
 - Fix the HAProxy server
+- Fix the need to -restart- postgresql.service after every boot.
 - Domain name
 - (DNS server)
 - (RAID)
