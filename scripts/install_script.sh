@@ -107,7 +107,7 @@ function configurerSysteme()
     ######################################### danger ############################################
     echo "admin:master" | chpasswd --root /mnt   
     echo "root:master" | chpasswd --root /mnt   
-    echo "root ALL=(ALL) NOPASSWD:ALL" >> /mnt/etc/sudoers.d/99_sudo_include_file
+    echo "@includedir /etc/sudoers.d" >> /mnt/etc/sudoers
     echo "%wheel ALL=(ALL:ALL) ALL" >> /mnt/etc/sudoers.d/99_sudo_include_file
 
     arch-chroot /mnt systemctl enable NetworkManager.service
