@@ -42,8 +42,6 @@ function configurationsReseau()
             nmcli con up admin-net
             nmcli con up intra-net
             ;;
-        "client")
-            ;;
         "admin")
             nmcli c add type ethernet con-name admin-net ifname enp0s8 ip4 192.168.0.1/24
             nmcli con up admin-net
@@ -64,8 +62,6 @@ function installerPaquetsPostInstall()
             ;;
         "serveur-load")
             ;;
-        "client")
-            ;;
         "admin")
             ;;
     esac
@@ -73,65 +69,62 @@ function installerPaquetsPostInstall()
 
 function deployerServeurWeb()
 {
-    su admin -c "mkdir /serv"
-    su admin -c "cd /serv || exit"
-    su admin -c "git clone https://github.com/yannmazita/example-server.git"
-    su admin -c "cd example-server"
-    su admin -c "poetry install"
+    sudo mkdir /serv
+    sudo chown "$USER:$USER" /serv
+    cd /serv || exit
+    git clone https://github.com/yannmazita/example-server.git
+    cd example-server || exit
+    poetry install
 }
 
 function configurationsPropres()
 {
     case $(cat /etc/hostname) in
         "serveur-web1")
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/ntp.conf" -o /etc/ntp.conf
-            systemctl start ntpd.service
-            systemctl enable ntpd.service
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/ntp.conf" -o /etc/ntp.conf
+            sudo systemctl start ntpd.service
+            sudo systemctl enable ntpd.service
 
             deployerServeurWeb
             ;;
         "serveur-web2")
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
-            systemctl start ntpd.service
-            systemctl enable ntpd.service
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
+            sudo systemctl start ntpd.service
+            sudo systemctl enable ntpd.service
 
             deployerServeurWeb
             ;;
         "serveur-temps")
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/ntp.conf" -o /etc/ntp.conf
-            systemctl start ntpd.service
-            systemctl enable ntpd.service
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/ntp.conf" -o /etc/ntp.conf
+            sudo systemctl start ntpd.service
+            sudo systemctl enable ntpd.service
             ;;
         "serveur-bdd")
             cd /tmp || exit # parce que postgre envoie un message d'erreur inutile
             su postgres -c "initdb -D /var/lib/postgres/data --data-checksums"
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/pg_hba.conf" -o /var/lib/postgres/data/pg_hba.conf
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/postgresql.conf" -o /var/lib/postgres/data/postgresql.conf
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/pg_hba.conf" -o /var/lib/postgres/data/pg_hba.conf
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/var/lib/postgres/data/postgresql.conf" -o /var/lib/postgres/data/postgresql.conf
             su postgres -c "createuser admin --superuser"
             su postgres -c "createdb baseDeDonnees -O admin"
-            systemctl start postgresql.service
-            systemctl enable postgresql.service
+            sudo systemctl start postgresql.service
+            sudo systemctl enable postgresql.service
 
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/ntp.conf" -o /etc/ntp.conf
-            systemctl start ntpd.service
-            systemctl enable ntpd.service
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/ntp.conf" -o /etc/ntp.conf
+            sudo systemctl start ntpd.service
+            sudo systemctl enable ntpd.service
             ;;
         "serveur-load")
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/haxproxy/haproxy.cfg" -o /etc/haproxy/haproxy.cfg
-            systemctl start haproxy.service
-            systemctl enable haproxy.service
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/haxproxy/haproxy.cfg" -o /etc/haproxy/haproxy.cfg
+            sudo systemctl start haproxy.service
+            sudo systemctl enable haproxy.service
             
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/ntp.conf" -o /etc/ntp.conf
-            systemctl start ntpd.service
-            systemctl enable ntpd.service
-            ;;
-        "client")
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/ntp.conf" -o /etc/ntp.conf
+            sudo systemctl start ntpd.service
+            sudo systemctl enable ntpd.service
             ;;
         "admin")
             ;;
     esac
-
-    systemctl restart postgresql.service
 }
 
 configurationsReseau
