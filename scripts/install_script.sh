@@ -14,7 +14,7 @@
 # Les variables
 
 hostname=""
-typeMachine=0   # 1=serveur web 1, 2=serveur web 2, 3=serveur temps, 4=serveur bdd, 5=load balancer, 6=routeur1, 7=routeur2, 8=client, 9=admin
+typeMachine=0   # 1=serveur web 1, 2=serveur web 2, 3=serveur temps, 4=serveur bdd, 5=load balancer, 6=client, 7=admin
 
 efiPart="/dev/sda1"    # on sait que l'on a que des disques (durs) sata, pas de SSD NVMe /dev/nvme0n1(p1)
 swapPart="/dev/sda2"
@@ -22,17 +22,11 @@ rootPart="/dev/sda3"
 varPart="/dev/sda4"
 homePart="/dev/sda5"
 
-#paquetsCommuns="base base-devel linux linux-firmware sudo ssh gnupg ffmpegthumbnailer fd flake8 fzf grub efibootmgr htop i3-wm imv fakeroot kitty less tree mediainfo mktemp unzip tar man bsdtar bat pdftoppm glow w3m i3-wm jgmenu flex linux-headers lua-language-server man-db meson neofetch networkmanager nm-connection-editor nnn ripgrep pinentry trash-cli shellcheck python python-poetry pyright npm shellharden taplo-cli texinfo ttf-jetbrains-mono-nerd otf-fira-sans ttf-amiri adobe-source-han-sans-otc-fonts wget xorg-server xorg-xinit zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting virtualbox-guest-utils nvim"
-#paquetsCommuns="base base-devel linux linux-firmware sudo grub efibootmgr man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting"
-paquetsServeurWeb="postgresql python-poetry"
-paquetsServeurBDD="postgresql"
-paquetsLoadBalancer="haproxy"
-
 # Les fonctions
 
 function choisirTypeInstallation()
 {
-    typeMachine="$(dialog --stdout --menu "Choisir type d'installation" 0 0 0 1 "Serveur web1" 2 "Serveur web2" 3 "Serveur temps" 4 "Serveur BDD" 5 "Load balancer" 6 "Client" 7 "Admin")"
+    typeMachine="$(dialog --stdout --menu "Choisir type d'installation" 0 0 0 1 "Serveur web1" 2 "Serveur web2" 3 "Serveur temps" 4 "Serveur BDD" 5 "Load balancer" 6 "Admin")"
     case $typeMachine in
         1)
             hostname="serveur-web1"
@@ -50,9 +44,6 @@ function choisirTypeInstallation()
             hostname="serveur-load"
             ;;
         6)
-            hostname="client"
-            ;;
-        7)
             hostname="admin"
             ;;
     esac
@@ -119,22 +110,20 @@ function installerPaquetsPropres()
 {
         case $typeMachine in
         1)
-            arch-chroot /mnt pacman -S --noconfirm "$paquetsServeurWeb"
+            arch-chroot /mnt pacman -S --noconfirm postgresql python-poetry
             ;;
         2)
-            arch-chroot /mnt pacman -S --noconfirm "$paquetsServeurWeb"
+            arch-chroot /mnt pacman -S --noconfirm postgresql python-poetry
             ;;
         3)
             ;;
         4)
-            arch-chroot /mnt pacman -S --noconfirm "$paquetsServeurBDD"
+            arch-chroot /mnt pacman -S --noconfirm postgresql
             ;;
         5)
-            arch-chroot /mnt pacman -S --noconfirm "$paquetsLoadBalancer"
+            arch-chroot /mnt pacman -S --noconfirm haproxy
             ;;
         6)
-            ;;
-        7)
             ;;
     esac
 }
