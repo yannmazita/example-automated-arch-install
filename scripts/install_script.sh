@@ -75,7 +75,7 @@ function preparerDisques()
 function installerPaquets()
 {
     #pacstrap -K /mnt base base-devel linux linux-firmware
-    pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp
+    pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg
 }
 
 function configurerSysteme()
