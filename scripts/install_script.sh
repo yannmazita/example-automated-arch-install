@@ -182,6 +182,7 @@ preparerDisques
 installerPaquets
 configurerSysteme
 installerPaquetsPropres
+configurerZsh
 configurerVirtualBoxGuest
 
 umount -R /mnt
