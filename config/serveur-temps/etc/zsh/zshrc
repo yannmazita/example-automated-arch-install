@@ -1,0 +1,40 @@
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt nomatch
+unsetopt autocd beep extendedglob notify
+bindkey -e
+
+zstyle :compinstall filename '$HOME/.zshrc'
+
+fpath+=~/.zfunc
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+### Disable implicit tee and cat and redirecting streams
+unsetopt multios
+
+### Show hidden folders on tab completion
+_comp_options+=(globdots)
+
+### Show current directory (with prefixing and truncating)
+export PS1="%20<...<%~%<< "
+
+### Sourcing ###
+
+### Keybindings
+if [ -f /etc/zsh/zsh_keybindings ]; then
+        . /etc/zsh/zsh_keybindings
+fi
+
+### Program specifics
+if [ -f /etc/zsh/zsh_programs ]; then
+        . /etc/zsh/zsh_programs
+fi
+
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source /usr/share/fzf/completion.zsh
+source /usr/share/fzf/key-bindings.zsh
