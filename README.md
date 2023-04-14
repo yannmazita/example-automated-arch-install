@@ -57,7 +57,7 @@ Configure 5 virtual machines as follow:
 ```commandline
 OK !
 ```
-you're ready to go. In a web server virtual machine, server deployment is automated and the server is running in the background.
+you're ready to go. In a web server virtual machine, server deployment is automated and the server starts in the current TTY.
 
 ## To do
 - Configure SSH access.
