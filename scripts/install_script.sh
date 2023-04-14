@@ -75,7 +75,7 @@ function preparerDisques()
 function installerPaquets()
 {
     #pacstrap -K /mnt base base-devel linux linux-firmware
-    pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting neovim git ntp
+    pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp
 }
 
 function configurerSysteme()
@@ -124,6 +124,44 @@ function installerPaquetsPropres()
             arch-chroot /mnt pacman -S --noconfirm haproxy
             ;;
         6)
+            ;;
+    esac
+}
+
+configurerZsh()
+{
+    case $(cat /etc/hostname) in
+        "serveur-web1")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
+            ;;
+        "serveur-web2")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
+            ;;
+        "serveur-temps")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
+            ;;
+        "serveur-bdd")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
+            ;;
+        "serveur-load")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
+            ;;
+        "admin")
             ;;
     esac
 }
