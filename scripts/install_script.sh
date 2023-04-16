@@ -24,7 +24,7 @@ homePart="/dev/sda5"
 
 # Les fonctions
 
-function choisirTypeInstallation()
+function choisirTypeMachine()
 {
     typeMachine="$(dialog --stdout --menu "Choisir type d'installation" 0 0 0 1 "Serveur web1" 2 "Serveur web2" 3 "Serveur temps" 4 "Serveur BDD" 5 "Load balancer" 6 "Admin")"
     case $typeMachine in
@@ -102,7 +102,6 @@ function configurerSysteme()
     echo "%wheel ALL=(ALL:ALL) ALL" >> /mnt/etc/sudoers.d/99_sudo_include_file
 
     arch-chroot /mnt systemctl enable NetworkManager.service
-    arch-chroot /mnt systemctl start NetworkManager.service
     arch-chroot /mnt printf "[main]\nno-auto-default=enp0s8,enp0s9" > /mnt/etc/NetworkManager/conf.d/00-configuration.conf
 }
 
@@ -130,7 +129,7 @@ function installerPaquetsPropres()
 
 configurerZsh()
 {
-    case $(cat /etc/hostname) in
+    case $(cat /mnt/etc/hostname) in
         "serveur-web1")
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
@@ -177,7 +176,7 @@ function configurerVirtualBoxGuest()
 
 timedatectl
 pacman -Sy --noconfirm dialog
-choisirTypeInstallation
+choisirTypeMachine
 preparerDisques
 installerPaquets
 configurerSysteme
