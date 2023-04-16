@@ -26,7 +26,13 @@ homePart="/dev/sda5"
 
 function choisirTypeMachine()
 {
-    typeMachine="$(dialog --stdout --menu "Choisir type d'installation" 0 0 0 1 "Serveur web1" 2 "Serveur web2" 3 "Serveur temps" 4 "Serveur BDD" 5 "Load balancer" 6 "Admin")"
+    while [[ ! $typeMachine =~ ^(1|2|3|4|5|6)$ ]]
+    do
+        echo "1) Serveur web 1, 2) Serveur web 2, 3) Serveur temps, 4) Serveur BDD, 5) Load Balancer, 6) Admin"
+        # shellcheck disable=2162
+        read -p "Choisir le type [1-6]: " typeMachine
+    done
+
     case $typeMachine in
         1)
             hostname="serveur-web1"
@@ -131,30 +137,35 @@ configurerZsh()
 {
     case $(cat /mnt/etc/hostname) in
         "serveur-web1")
+            echo "#empty" > /home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
             ;;
         "serveur-web2")
+            echo "#empty" > /home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
             ;;
         "serveur-temps")
+            echo "#empty" > /home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
             ;;
         "serveur-bdd")
+            echo "#empty" > /home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
             ;;
         "serveur-load")
+            echo "#empty" > /home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
@@ -175,7 +186,6 @@ function configurerVirtualBoxGuest()
 # Le programme principal
 
 timedatectl
-pacman -Sy --noconfirm dialog
 choisirTypeMachine
 preparerDisques
 installerPaquets
