@@ -57,13 +57,21 @@ Configure 5 virtual machines as follow:
 ```commandline
 OK !
 ```
-you're ready to go. In a web server virtual machine, server deployment is automated and the server starts in the current TTY.
+you're ready to go.
+### Web server virtual machines
+Two commands are provided to migrate data on the server (after changes in models) and to run the server:
+```commandline
+migrate_server
+run_server
+```
+To start the server just run:
+```commandline
+run_server
+```
 
 ## To do
 - Configure SSH access.
 - Configure data synchronizing between serveur-web1 and serveur-web2
-- Configure Daphne
-- Fix the HAProxy server
 - Fix the need to -restart- postgresql.service after every boot.
 - Domain name
 - (DNS server)

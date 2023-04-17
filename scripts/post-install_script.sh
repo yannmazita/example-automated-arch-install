@@ -83,7 +83,6 @@ function deployerServeurWeb()
     poetry install
     poetry run python src/my_website/manage.py migrate
     poetry run python src/my_website/manage.py createsuperuser --noinput --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL" --password "$DJANGO_SUPERUSER_PASSWORD"
-    poetry run python src/my_website/manage.py runserver 0.0.0.0:8000
 }
 
 function configurationsPropres()
@@ -95,6 +94,8 @@ function configurationsPropres()
             sudo systemctl enable ntpd.service
 
             deployerServeurWeb
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /home/admin/bin/migrate_server.sh
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /home/admin/bin/run_server.sh
             ;;
         "serveur-web2")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
@@ -102,6 +103,8 @@ function configurationsPropres()
             sudo systemctl enable ntpd.service
 
             deployerServeurWeb
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/home/admin/bin/migrate_server.sh" -o /home/admin/bin/migrate_server.sh
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /home/admin/bin/run_server.sh
             ;;
         "serveur-temps")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/ntp.conf" -o /etc/ntp.conf
