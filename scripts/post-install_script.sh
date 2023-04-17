@@ -106,7 +106,7 @@ function configurationsPropres()
             mkdir ~/bin
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /home/admin/bin/migrate_server.sh
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /home/admin/bin/run_server.sh
-            chmod +x /bin/{migrate_server.sh,run_server.sh}
+            chmod +x ~/bin/{migrate_server.sh,run_server.sh}
             ;;
         "serveur-web2")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
@@ -117,7 +117,7 @@ function configurationsPropres()
             mkdir ~/bin
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/home/admin/bin/migrate_server.sh" -o /home/admin/bin/migrate_server.sh
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /home/admin/bin/run_server.sh
-            chmod +x /bin/{migrate_server.sh,run_server.sh}
+            chmod +x ~/bin/{migrate_server.sh,run_server.sh}
             ;;
         "serveur-temps")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/ntp.conf" -o /etc/ntp.conf
