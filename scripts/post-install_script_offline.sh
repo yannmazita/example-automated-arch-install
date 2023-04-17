@@ -1,9 +1,16 @@
 #!/bin/bash
 # shellcheck disable=2317
 
-# Les variables
-
 # Fonctions
+
+function verifierPostInstall()
+{
+    if (( $(cat /etc/post-install) == 1 ))
+    then
+        exit
+    fi 
+}
+
 function configurationsReseau()
 {
     case $(cat /etc/hostname) in
@@ -70,7 +77,6 @@ function deployerServeurWeb()
     git clone https://github.com/yannmazita/example-server.git
     cd example-server || exit
     echo "SECRET_KEY = '$(openssl rand -hex 40)'" > src/my_website/.env
-    #source /etc/zsh/zshenv
     poetry install
     poetry run python src/my_website/manage.py migrate
     poetry run python src/my_website/manage.py createsuperuser --noinput --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL" --password "$DJANGO_SUPERUSER_PASSWORD"
@@ -126,5 +132,7 @@ configurationsReseau
 nmcli connection reload
 installerPaquetsPostInstall
 configurationsPropres
+verifierPostInstall
+echo "1" | sudo tee /etc/post-install 1&>/dev/null
 
 echo "OK !"
