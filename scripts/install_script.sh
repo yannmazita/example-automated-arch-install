@@ -137,35 +137,35 @@ configurerZsh()
 {
     case $(cat /mnt/etc/hostname) in
         "serveur-web1")
-            echo "#empty" > /home/admin/.zshrc
+            echo "#empty" > /mnt/home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
             ;;
         "serveur-web2")
-            echo "#empty" > /home/admin/.zshrc
+            echo "#empty" > /mnt/home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
             ;;
         "serveur-temps")
-            echo "#empty" > /home/admin/.zshrc
+            echo "#empty" > /mnt/home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
             ;;
         "serveur-bdd")
-            echo "#empty" > /home/admin/.zshrc
+            echo "#empty" > /mnt/home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
             ;;
         "serveur-load")
-            echo "#empty" > /home/admin/.zshrc
+            echo "#empty" > /mnt/home/admin/.zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
