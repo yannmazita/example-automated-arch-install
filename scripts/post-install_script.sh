@@ -84,11 +84,9 @@ function deployerServeurWeb()
     git clone https://github.com/yannmazita/example-server.git
     cd example-server || exit
     echo "SECRET_KEY = '$(openssl rand -hex 40)'" > src/my_website/.env
-    {
-        echo "DJANGO_SUPERUSER_USERNAME = admin";
-        echo "DJANGO_SUPERUSER_PASSWORD = master";
-        echo "DJANGO_SUPERUSER_EMAIL = admin@admin.admin";
-    } >> src/my_website/.env 
+    echo "export DJANGO_SUPERUSER_USERNAME = 'admin'" | sudo tee -a /etc/zshenv 1&> /dev/null
+    echo "export DJANGO_SUPERUSER_PASSWORD = 'master'" | sudo tee -a /etc/zshenv 1&> /dev/null
+    echo "export DJANGO_SUPERUSER_EMAIL = 'admin@admin.admin'" | sudo tee -a /etc/zshenv 1&> /dev/null
     poetry install
     poetry run python src/my_website/manage.py migrate
     poetry run python src/my_website/manage.py createsuperuser --noinput --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL" --password "$DJANGO_SUPERUSER_PASSWORD"
