@@ -175,6 +175,8 @@ configurerZsh()
             ;;
     esac
 }
+
+function configurerVirtualBoxGuest()
 {
     # Chargement des modules de Virtual Box au démarrage.
     arch-chroot /mnt VBoxClient-all

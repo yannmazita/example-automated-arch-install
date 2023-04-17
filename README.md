@@ -49,10 +49,7 @@ Configure 5 virtual machines as follow:
     ```
 - Select the machine you want to install (one of 5 virtual machines) then wait for the machine to restart
 - Log in with admin:master
-- Type
-    ```commandline
-    curl -sL $(curl https://pastebin.com/raw/GRYpUiK6) | bash
-    ```
+- Post installation begins, type password (master) when prompted
 - Once you're greeted with
 ```commandline
 OK !
