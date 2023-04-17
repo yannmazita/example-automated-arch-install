@@ -175,12 +175,21 @@ configurerZsh()
             ;;
     esac
 }
-
-function configurerVirtualBoxGuest()
 {
     # Chargement des modules de Virtual Box au démarrage.
     arch-chroot /mnt VBoxClient-all
     arch-chroot /mnt systemctl enable vboxservice.service
+}
+
+function preparerPostInstallation()
+{
+    # shellcheck disable=2016
+    printf '
+#!/bin/bash
+curl -sL $(curl https://pastebin.com/raw/GRYpUiK6)
+' > /mnt/home/admin/post-install_script.sh
+
+    echo "0" > /mnt/etc/post-install
 }
 
 # Le programme principal
@@ -193,6 +202,7 @@ configurerSysteme
 installerPaquetsPropres
 configurerZsh
 configurerVirtualBoxGuest
+preparerPostInstallation
 
 umount -R /mnt
 reboot

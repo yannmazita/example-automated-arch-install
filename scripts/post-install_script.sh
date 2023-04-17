@@ -9,6 +9,15 @@
 # Les variables
 
 # Fonctions
+
+function verifierPostInstall()
+{
+    if (( $(cat /etc/post-install) == 0 ))
+    then
+        exit
+    fi
+}
+
 function configurationsReseau()
 {
     case $(cat /etc/hostname) in
@@ -137,9 +146,11 @@ function configurationsPropres()
     esac
 }
 
+verifierPostInstall
 configurationsReseau
 nmcli connection reload
 installerPaquetsPostInstall
 configurationsPropres
+echo "1" | sudo tee /etc/post-install 1&> /dev/null
 
 echo "OK !"
