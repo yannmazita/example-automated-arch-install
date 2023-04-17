@@ -1,0 +1,218 @@
+#!/bin/bash
+
+###################################################################################
+#
+# NE LANCER QUE DANS UNE MACHINE VIRTUELLE
+#
+###################################################################################
+
+# Les variables
+
+hostname=""
+typeMachine=0   # 1=serveur web 1, 2=serveur web 2, 3=serveur temps, 4=serveur bdd, 5=load balancer, 6=admin
+
+efiPart="/dev/sda1"    # on sait que l'on a que des disques (durs) sata, pas de SSD NVMe /dev/nvme0n1(p1)
+swapPart="/dev/sda2"
+rootPart="/dev/sda3"
+varPart="/dev/sda4"
+homePart="/dev/sda5"
+
+# Les fonctions
+
+function choisirTypeMachine()
+{
+    while [[ ! $typeMachine =~ ^(1|2|3|4|5|6)$ ]]
+    do
+        echo "1) Serveur web 1, 2) Serveur web 2, 3) Serveur temps, 4) Serveur BDD, 5) Load Balancer, 6) Admin"
+        # shellcheck disable=2162
+        read -p "Choisir le type [1-6]: " typeMachine
+    done
+
+    case $typeMachine in
+        1)
+            hostname="serveur-web1"
+            ;;
+        2)
+            hostname="serveur-web2"
+            ;;
+        3)
+            hostname="serveur-temps"
+            ;;
+        4)
+            hostname="serveur-bdd"
+            ;;
+        5)
+            hostname="serveur-load"
+            ;;
+        6)
+            hostname="admin"
+            ;;
+    esac
+}
+
+function preparerDisques()
+{
+    parted --script /dev/sda -- mklabel gpt \
+        mkpart ESP fat32 1Mib 301MiB \
+        set 1 boot on \
+        mkpart primary linux-swap 301Mib 1255Mib \
+        mkpart primary ext4 1255MiB 20329Mib \
+        mkpart primary ext4 20329Mib 39403Mib \
+        mkpart primary ext4 39403Mib 100%
+
+    mkfs.fat -F32 "$efiPart"
+    mkswap "$swapPart"
+    mkfs.ext4 "$rootPart"
+    mkfs.ext4 "$varPart"
+    mkfs.ext4 "$homePart"
+
+    mount "$rootPart" /mnt
+    swapon "$swapPart"
+    mount --mkdir "$efiPart" /mnt/efi
+    mount --mkdir "$varPart" /mnt/var
+    mount --mkdir "$homePart" /mnt/home
+}
+
+function installerPaquets()
+{
+    pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg
+}
+
+function configurerSysteme()
+{
+    genfstab -U /mnt >> /mnt/etc/fstab
+    arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+    arch-chroot /mnt hwclock --systohc
+    arch-chroot /mnt printf "en_GB.UTF-8 UTF-8\nen_US.UTF-8 UTF-8\nfr_FR.UTF-8 UTF-8" > /mnt/etc/locale.gen
+    arch-chroot /mnt locale-gen
+    arch-chroot /mnt echo "LANG=en_GB.UTF-8" > /mnt/etc/locale.conf
+    arch-chroot /mnt echo "KEYMAP=fr-latin9" > /mnt/etc/vconsole.conf
+    arch-chroot /mnt echo "$hostname" > /mnt/etc/hostname
+
+    arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
+    arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+    arch-chroot /mnt printf "GRUB_DEFAULT=0\nGRUB_TIMEOUT=5\nGRUB_DISTRIBUTOR=\"Arch\"\nGRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"\nGRUB_CMDLINE_LINUX=\"\"\nGRUB_PRELOAD_MODULES=\"part_gpt part_msdos\"\nGRUB_TIMEOUT_STYLE=menu\nGRUB_TERMINAL_INPUT=console\nGRUB_GFXMODE=640*480*32\nGRUB_GFXPAYLOAD_LINUX=keep\nGRUB_DISABLE_RECOVERY=true\nGRUB_DISABLE_OS_PROBER=true" > /mnt/etc/default/grub
+
+    arch-chroot /mnt useradd -mU -s /usr/bin/zsh -G vboxsf,wheel "admin"
+    arch-chroot /mnt chsh -s /usr/bin/zsh
+    ######################################### danger ############################################
+    echo "admin:master" | chpasswd --root /mnt   
+    echo "root:master" | chpasswd --root /mnt   
+    echo "@includedir /etc/sudoers.d" >> /mnt/etc/sudoers
+    echo "%wheel ALL=(ALL:ALL) ALL" >> /mnt/etc/sudoers.d/99_sudo_include_file
+
+    arch-chroot /mnt systemctl enable NetworkManager.service
+    arch-chroot /mnt printf "[main]\nno-auto-default=enp0s8,enp0s9" > /mnt/etc/NetworkManager/conf.d/00-configuration.conf
+}
+
+function installerPaquetsPropres()
+{
+        case $typeMachine in
+        1)
+            arch-chroot /mnt pacman -U --noconfirm /local_files/repo/postgresql-15.2-1-x86_64.pkg.tar.zst /local_files/repo/python-poetry-1.4.2-1-any.pkg.tar.zst  
+            ;;
+        2)
+            arch-chroot /mnt pacman -U --noconfirm /local_files/repo/postgresql-15.2-1-x86_64.pkg.tar.zst /local_files/repo/python-poetry-1.4.2-1-any.pkg.tar.zst  
+            ;;
+        3)
+            ;;
+        4)
+            arch-chroot /mnt pacman -U --noconfirm /local_files/repo/postgresql-15.2-1-x86_64.pkg.tar.zst 
+            ;;
+        5)
+            arch-chroot /mnt pacman -U --noconfirm /local_files/repo/haproxy-2.7.6-1-x86_64.pkg.tar.zst  
+            ;;
+        6)
+            ;;
+    esac
+}
+
+configurerZsh()
+{
+    case $(cat /mnt/etc/hostname) in
+        "serveur-web1")
+            #echo "#empty" > /mnt/home/admin/.zshrc
+            cp /local_files/config/serveur-web1/etc/zsh/zshrc /mnt/etc/zsh/zshrc
+            cp /local_files/config/serveur-web1/etc/zsh/zshen /mnt/etc/zsh/zshenv
+            cp /local_files/config/serveur-web1/etc/zsh/zsh_keybindings /mnt/etc/zsh/zsh_keybindings
+            cp /local_files/config/serveur-web1/etc/zsh/zsh_programs /mnt/etc/zsh/zsh_programs
+            ;;
+        "serveur-web2")
+            #echo "#empty" > /mnt/home/admin/.zshrc
+            cp /local_files/config/serveur-web2/etc/zsh/zshrc /mnt/etc/zsh/zshrc
+            cp /local_files/config/serveur-web2/etc/zsh/zshen /mnt/etc/zsh/zshenv
+            cp /local_files/config/serveur-web2/etc/zsh/zsh_keybindings /mnt/etc/zsh/zsh_keybindings
+            cp /local_files/config/serveur-web2/etc/zsh/zsh_programs /mnt/etc/zsh/zsh_programs
+            ;;
+        "serveur-temps")
+            #echo "#empty" > /mnt/home/admin/.zshrc
+            cp /local_files/config/serveur-temps/etc/zsh/zshrc /mnt/etc/zsh/zshrc
+            cp /local_files/config/serveur-temps/etc/zsh/zshen /mnt/etc/zsh/zshenv
+            cp /local_files/config/serveur-temps/etc/zsh/zsh_keybindings /mnt/etc/zsh/zsh_keybindings
+            cp /local_files/config/serveur-temps/etc/zsh/zsh_programs /mnt/etc/zsh/zsh_programs
+            ;;
+        "serveur-bdd")
+            #echo "#empty" > /mnt/home/admin/.zshrc
+            cp /local_files/config/serveur-bdd/etc/zsh/zshrc /mnt/etc/zsh/zshrc
+            cp /local_files/config/serveur-bdd/etc/zsh/zshen /mnt/etc/zsh/zshenv
+            cp /local_files/config/serveur-bdd/etc/zsh/zsh_keybindings /mnt/etc/zsh/zsh_keybindings
+            cp /local_files/config/serveur-bdd/etc/zsh/zsh_programs /mnt/etc/zsh/zsh_programs
+            ;;
+        "serveur-load")
+            #echo "#empty" > /mnt/home/admin/.zshrc
+            cp /local_files/config/serveur-load/etc/zsh/zshrc /mnt/etc/zsh/zshrc
+            cp /local_files/config/serveur-load/etc/zsh/zshen /mnt/etc/zsh/zshenv
+            cp /local_files/config/serveur-load/etc/zsh/zsh_keybindings /mnt/etc/zsh/zsh_keybindings
+            cp /local_files/config/serveur-load/etc/zsh/zsh_programs /mnt/etc/zsh/zsh_programs
+            ;;
+        "admin")
+            ;;
+    esac
+}
+
+function configurationsPropres()
+{
+    case $typeMachine in
+        1)
+            echo "export DJANGO_SUPERUSER_USERNAME='admin'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
+            echo "export DJANGO_SUPERUSER_PASSWORD='master'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
+            echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
+            ;;
+        2)
+            echo "export DJANGO_SUPERUSER_USERNAME='admin'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
+            echo "export DJANGO_SUPERUSER_PASSWORD='master'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
+            echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
+            ;;
+    esac
+}
+
+function configurerVirtualBoxGuest()
+{
+    # Chargement des modules de Virtual Box au démarrage.
+    arch-chroot /mnt VBoxClient-all
+    arch-chroot /mnt systemctl enable vboxservice.service
+}
+
+function preparerPostInstallation()
+{
+    # shellcheck disable=2016
+    printf '
+#!/bin/bash
+curl -sL $(curl https://pastebin.com/raw/GRYpUiK6)
+' > /mnt/home/admin/post-install_script.sh
+
+    echo "0" > /mnt/etc/post-install
+}
+
+# Le programme principal
+
+choisirTypeMachine
+preparerDisques
+installerPaquets
+configurerSysteme
+installerPaquetsPropres
+configurerZsh
+configurerVirtualBoxGuest
+preparerPostInstallation
+
+umount -R /mnt
