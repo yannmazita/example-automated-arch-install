@@ -223,7 +223,6 @@ choisirTypeMachine
 preparerDisques
 installerPaquets
 configurerSysteme
-installerPaquetsPropres
 configurerZsh
 configurerVirtualBoxGuest
 preparerPostInstallation
@@ -232,5 +231,5 @@ cp -r /local_files /mnt/
 cp -r /local_files/config/serveur-web1/admin/bin /mnt/home/admin/
 arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
 arch-chroot /mnt chown -R admin:admin /home/admin/
-#umount -R /mnt
-#reboot
+umount -R /mnt
+reboot

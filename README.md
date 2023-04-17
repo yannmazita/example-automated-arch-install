@@ -39,9 +39,13 @@ Virtual machines in intra-net have these IP addresses:
 Client's IP address is unimportant.
 
 ## Usage
+
 Configure 5 virtual machines as follow:
 - 1 CPU, 2048 MB (RAM), 50 GB dynamically allocated (HDD), EFI activated, Arch Linux ISO in disc drive.
 - Boot into a machine with the Arch image.
+
+### Online mode
+You will download everything from Arch mirrors.
 - Type 
     ```commandline
     loadkeys fr-latin9
@@ -55,6 +59,24 @@ Configure 5 virtual machines as follow:
 OK !
 ```
 you're ready to go.
+
+### Offline mode
+Not really offline, you were provided with an image packing the full base install.
+Some python packages and get repos still need to be downloaded.
+- Type 
+    ```commandline
+    loadkeys fr-latin9
+    bash /local_files/scripts/install_script_offline.sh
+    ```
+- Select the machine you want to install (one of 5 virtual machines) then wait for the machine to restart
+- Log in with admin:master
+- Post installation begins, type password (master) when prompted
+- Once you're greeted with
+```commandline
+OK !
+```
+you're ready to go.
+
 ### Web server virtual machines
 Two commands are provided to migrate data on the server (after changes in models) and to run the server:
 ```commandline
