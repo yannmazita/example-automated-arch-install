@@ -90,6 +90,9 @@ function configurationsPropres()
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
 
+            sudo cp /local_files/config/serveur-web1/etc/systemd/system/gunicorn.service
+            sudo systemctl start gunicorn.service
+            sudo systemctl enable gunicorn.service
             deployerServeurWeb
             ;;
         "serveur-web2")
@@ -97,6 +100,9 @@ function configurationsPropres()
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
 
+            sudo cp /local_files/config/serveur-web2/etc/systemd/system/gunicorn.service
+            sudo systemctl start gunicorn.service
+            sudo systemctl enable gunicorn.service
             deployerServeurWeb
             ;;
         "serveur-temps")

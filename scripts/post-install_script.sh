@@ -97,6 +97,9 @@ function configurationsPropres()
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
 
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/systemd/system/gunicorn.service" -o /etc/systemd/sytem/gunicorn.service
+            sudo systemctl start gunicorn.service
+            sudo systemctl enable gunicorn.service
             deployerServeurWeb
             ;;
         "serveur-web2")
@@ -104,6 +107,9 @@ function configurationsPropres()
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
 
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/systemd/system/gunicorn.service" -o /etc/systemd/sytem/gunicorn.service
+            sudo systemctl start gunicorn.service
+            sudo systemctl enable gunicorn.service
             deployerServeurWeb
             ;;
         "serveur-temps")
