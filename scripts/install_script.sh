@@ -151,6 +151,7 @@ configurerZsh()
     arch-chroot /mnt chown admin:admin /home/admin/.zshrc
     case $(cat /mnt/etc/hostname) in
         "serveur-web1")
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshrc" -o /mnt/etc/zsh/zshrc
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zshenv" -o /mnt/etc/zsh/zshenv
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zsh_keybindings" -o /mnt/etc/zsh/zsh_keybindings
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zsh/zsh_programs" -o /mnt/etc/zsh/zsh_programs
