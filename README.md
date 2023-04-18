@@ -78,6 +78,13 @@ OK !
 ```
 you're ready to go.
 
+### Order
+As of now, to avoid any issue you have to install the virtual machines in this order:
+- serveur-temps
+- serveur-bdd (and restart postgresql service)
+- serveur-web{1,2} (and start the servers)
+- serveur-load
+
 ### Web server virtual machines
 Two commands are provided to migrate data on the server (after changes in models) and to run the server:
 ```commandline
@@ -88,6 +95,12 @@ To start the server just run:
 ```commandline
 run_server
 ```
+### Database server virtual machines
+As of now you HAVE to run
+```commandline
+sudo systemctl restart postgresql.service
+```
+to make the PostgreSQL database accessible.
 
 ## To do
 - Configure SSH access.
