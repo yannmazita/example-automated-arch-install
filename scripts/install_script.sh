@@ -186,16 +186,25 @@ configurerZsh()
 
 function configurationsPropres()
 {
+    mkdir /mnt/home/admin/bin
     case $typeMachine in
         1)
             echo "export DJANGO_SUPERUSER_USERNAME='admin'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
             echo "export DJANGO_SUPERUSER_PASSWORD='master'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
             echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
+
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /mnt/home/admin/bin/migrate_server.sh
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /mnt/home/admin/bin/run_server.sh
+            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
             ;;
         2)
             echo "export DJANGO_SUPERUSER_USERNAME='admin'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
             echo "export DJANGO_SUPERUSER_PASSWORD='master'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
             echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
+            
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /mnt/home/admin/bin/migrate_server.sh
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /mnt/home/admin/bin/run_server.sh
+            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
             ;;
     esac
 }
@@ -227,10 +236,6 @@ configurerZsh
 configurerVirtualBoxGuest
 preparerPostInstallation
 
-mkdir /mnt/home/admin/bin
-curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /mnt/home/admin/bin/migrate_server.sh
-curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /mnt/home/admin/bin/run_server.sh
-arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
 arch-chroot /mnt chown -R admin:admin /home/admin/
-#umount -R /mnt
-#reboot
+umount -R /mnt
+reboot
