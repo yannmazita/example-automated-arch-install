@@ -12,7 +12,7 @@
 
 function verifierPostInstall()
 {
-    if (( $(cat /etc/post-install) == 0 ))
+    if (( $(cat /etc/post-install) == 1 ))
     then
         exit
     fi
@@ -84,11 +84,6 @@ function deployerServeurWeb()
     git clone https://github.com/yannmazita/example-server.git
     cd example-server || exit
     echo "SECRET_KEY = '$(openssl rand -hex 40)'" > src/my_website/.env
-    echo "export DJANGO_SUPERUSER_USERNAME='admin'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
-    echo "export DJANGO_SUPERUSER_PASSWORD='master'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
-    echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" | sudo tee -a /etc/zsh/zshenv 1&> /dev/null
-    # shellcheck disable=1091
-    source /etc/zsh/zshenv
     poetry install
     poetry run python src/my_website/manage.py migrate
     poetry run python src/my_website/manage.py createsuperuser --noinput --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL" --password "$DJANGO_SUPERUSER_PASSWORD"
@@ -103,10 +98,6 @@ function configurationsPropres()
             sudo systemctl enable ntpd.service
 
             deployerServeurWeb
-            mkdir ~/bin
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /home/admin/bin/migrate_server.sh
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /home/admin/bin/run_server.sh
-            chmod +x ~/bin/{migrate_server.sh,run_server.sh}
             ;;
         "serveur-web2")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
@@ -114,10 +105,6 @@ function configurationsPropres()
             sudo systemctl enable ntpd.service
 
             deployerServeurWeb
-            mkdir ~/bin
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/home/admin/bin/migrate_server.sh" -o /home/admin/bin/migrate_server.sh
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /home/admin/bin/run_server.sh
-            chmod +x ~/bin/{migrate_server.sh,run_server.sh}
             ;;
         "serveur-temps")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/ntp.conf" -o /etc/ntp.conf
@@ -153,6 +140,6 @@ configurationsReseau
 nmcli connection reload
 installerPaquetsPostInstall
 configurationsPropres
-echo "1" | sudo tee /etc/post-install 1&> /dev/null
+echo "1" | sudo tee /etc/post-install 1&>/dev/null
 
 echo "OK !"
