@@ -219,6 +219,7 @@ function preparerPostInstallation()
 
 # Le programme principal
 
+timedatectl
 choisirTypeMachine
 preparerDisques
 installerPaquets

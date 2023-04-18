@@ -128,11 +128,11 @@ function configurationsPropres()
     esac
 }
 
+verifierPostInstall
 configurationsReseau
 nmcli connection reload
 installerPaquetsPostInstall
 configurationsPropres
-verifierPostInstall
 echo "1" | sudo tee /etc/post-install 1&>/dev/null
 
 echo "OK !"
