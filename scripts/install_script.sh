@@ -227,8 +227,9 @@ configurerZsh
 configurerVirtualBoxGuest
 preparerPostInstallation
 
-curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /home/admin/bin/migrate_server.sh
-curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /home/admin/bin/run_server.sh
+mkdir /mnt/home/admin/bin
+curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /mnt/home/admin/bin/migrate_server.sh
+curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /mnt/home/admin/bin/run_server.sh
 arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
 arch-chroot /mnt chown -R admin:admin /home/admin/
 #umount -R /mnt
