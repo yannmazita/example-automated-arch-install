@@ -49,7 +49,8 @@ You will download everything from Arch mirrors.
 - Type 
     ```commandline
     loadkeys fr-latin9
-    curl -sL $(curl https://pastebin.com/raw/hBYQ2Umm) | bash
+    curl -sL $(curl https://pastebin.com/raw/hBYQ2Umm) > install_script.sh
+    bash install_script.sh
     ```
 - Select the machine you want to install (one of 5 virtual machines) then wait for the machine to restart
 - Log in with admin:master
