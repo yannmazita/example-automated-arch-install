@@ -147,7 +147,7 @@ no-auto-default=enp0s8,enp0s9
 
 configurerZsh()
 {
-    echo "# empty" > /mnt/home/admin/.zshrc
+    echo "exec bash /home/admin/post-install_script.sh" > /mnt/home/admin/.zshrc
     arch-chroot /mnt chown admin:admin /home/admin/.zshrc
     case $(cat /mnt/etc/hostname) in
         "serveur-web1")
@@ -210,8 +210,8 @@ function configurerVirtualBoxGuest()
 function preparerPostInstallation()
 {
     # shellcheck disable=2016
-    curl -sL "$(curl https://pastebin.com/raw/GRYpUiK6)" > /mnt/home/admin/post-install_script_offline.sh
-    arch-chroot /mnt chmod u+x /home/admin/post-install_script_offline.sh
+    curl -sL "$(curl https://pastebin.com/raw/GRYpUiK6)" > /mnt/home/admin/post-install_script.sh
+    arch-chroot /mnt chmod u+x /home/admin/post-install_script.sh
 
     echo "0" > /mnt/etc/post-install
 }
@@ -231,5 +231,5 @@ curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-instal
 curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /home/admin/bin/run_server.sh
 arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
 arch-chroot /mnt chown -R admin:admin /home/admin/
-umount -R /mnt
-reboot
+#umount -R /mnt
+#reboot
