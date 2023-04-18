@@ -92,6 +92,7 @@ run_server
 ## To do
 - Configure SSH access.
 - Configure data synchronizing between serveur-web1 and serveur-web2
+- Fix Django superuser creation (env variables)
 - Fix the need to -restart- postgresql.service after every boot.
 - Domain name
 - (DNS server)
