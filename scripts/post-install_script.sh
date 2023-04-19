@@ -87,6 +87,8 @@ function deployerServeurWeb()
     poetry install
     poetry run python src/my_website/manage.py migrate
     poetry run python src/my_website/manage.py createsuperuser --noinput --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL" --password "$DJANGO_SUPERUSER_PASSWORD"
+    # shellcheck disable=2164
+    cd
 }
 
 function configurationsPropres()
