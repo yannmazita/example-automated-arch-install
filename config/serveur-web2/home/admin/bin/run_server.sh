@@ -1,2 +1,3 @@
 #!/bin/bash
-poetry run python src/my_website/manage.py runserver 0.0.0.0:8000
+cd /serv/example-server/src/my_website || exit
+poetry run gunicorn my_website.wsgi:application

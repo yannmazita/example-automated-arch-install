@@ -190,15 +190,15 @@ function configurationsPropres()
     mkdir /mnt/home/admin/bin
     case $typeMachine in
         1)
-            echo "export DJANGO_SUPERUSER_USERNAME='admin'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
-            echo "export DJANGO_SUPERUSER_PASSWORD='master'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
-            echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
+            echo "export DJANGO_SUPERUSER_USERNAME='admin'" >> /mnt/etc/zsh/zshenv
+            echo "export DJANGO_SUPERUSER_PASSWORD='master'" >> /mnt/etc/zsh/zshenv
+            echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" >> /mnt/etc/zsh/zshenv
             arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
             ;;
         2)
-            echo "export DJANGO_SUPERUSER_USERNAME='admin'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
-            echo "export DJANGO_SUPERUSER_PASSWORD='master'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
-            echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" | sudo tee -a /mnt/etc/zsh/zshenv 1&>/dev/null
+            echo "export DJANGO_SUPERUSER_USERNAME='admin'" >> /mnt/etc/zsh/zshenv
+            echo "export DJANGO_SUPERUSER_PASSWORD='master'" >> /mnt/etc/zsh/zshenv
+            echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" >> /mnt/etc/zsh/zshenv
             arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
             ;;
     esac
@@ -229,6 +229,7 @@ preparerDisques
 installerPaquets
 configurerSysteme
 configurerZsh
+configurationsPropres
 configurerVirtualBoxGuest
 preparerPostInstallation
 
