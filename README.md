@@ -86,15 +86,13 @@ As of now, to avoid any issue you have to install the virtual machines in this o
 - serveur-load
 
 ### Web server virtual machines
-Two commands are provided to migrate data on the server (after changes in models) and to run the server:
+Starting/Stopping the server is handled by the systemd service gunicorn.service. It automatically starts
+on system boot.
+After changing data models you can run the command:
 ```commandline
 migrate_server
-run_server
 ```
-To start the server just run:
-```commandline
-run_server
-```
+
 ### Database server virtual machines
 As of now you HAVE to run
 ```commandline
@@ -104,8 +102,7 @@ to make the PostgreSQL database accessible.
 
 ## To do
 - Configure SSH access.
-- Configure data synchronizing between serveur-web1 and serveur-web2
-- Fix Django superuser creation (env variables)
+- Fix HTTP redirection issues
 - Fix the need to -restart- postgresql.service after every boot.
 - Domain name
 - (DNS server)
