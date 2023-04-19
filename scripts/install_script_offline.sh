@@ -193,13 +193,13 @@ function configurationsPropres()
             echo "export DJANGO_SUPERUSER_USERNAME='admin'" >> /mnt/etc/zsh/zshenv
             echo "export DJANGO_SUPERUSER_PASSWORD='master'" >> /mnt/etc/zsh/zshenv
             echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" >> /mnt/etc/zsh/zshenv
-            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
+            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server,run_server}
             ;;
         2)
             echo "export DJANGO_SUPERUSER_USERNAME='admin'" >> /mnt/etc/zsh/zshenv
             echo "export DJANGO_SUPERUSER_PASSWORD='master'" >> /mnt/etc/zsh/zshenv
             echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" >> /mnt/etc/zsh/zshenv
-            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
+            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server,run_server}
             ;;
     esac
 }
@@ -235,7 +235,7 @@ preparerPostInstallation
 
 cp -r /local_files /mnt/
 cp -r /local_files/config/serveur-web1/admin/bin /mnt/home/admin/
-arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
+arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server,run_server}
 arch-chroot /mnt chown -R admin:admin /home/admin/
 umount -R /mnt
 reboot

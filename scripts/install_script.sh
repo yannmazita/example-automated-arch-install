@@ -194,18 +194,18 @@ function configurationsPropres()
             echo "export DJANGO_SUPERUSER_PASSWORD='master'" >> /mnt/etc/zsh/zshenv
             echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" >> /mnt/etc/zsh/zshenv
 
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /mnt/home/admin/bin/migrate_server.sh
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /mnt/home/admin/bin/run_server.sh
-            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server" -o /mnt/home/admin/bin/migrate_server
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server" -o /mnt/home/admin/bin/run_server
+            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server,run_server}
             ;;
         2)
             echo "export DJANGO_SUPERUSER_USERNAME='admin'" >> /mnt/etc/zsh/zshenv
             echo "export DJANGO_SUPERUSER_PASSWORD='master'" >> /mnt/etc/zsh/zshenv
             echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" >> /mnt/etc/zsh/zshenv
             
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server.sh" -o /mnt/home/admin/bin/migrate_server.sh
-            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server.sh" -o /mnt/home/admin/bin/run_server.sh
-            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server.sh,run_server.sh}
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/migrate_server" -o /mnt/home/admin/bin/migrate_server
+            curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server" -o /mnt/home/admin/bin/run_server
+            arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server,run_server}
             ;;
     esac
 }
