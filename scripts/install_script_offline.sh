@@ -77,21 +77,22 @@ function installerPaquets()
 {
     case $typeMachine in
         1)
-            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg postgresql python-poetry
+            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg postgresql python-poetry zabbix-agent
             ;;
         2)
-            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg postgresql python-poetry
+            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg postgresql python-poetry zabbix-agent
             ;;
         3)
-            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg
+            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg zabbix-agent
             ;;
         4)
-            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg postgresql
+            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg postgresql zabbix-agent
             ;;
         5)
-            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg haproxy
+            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg haproxy zabbix-agent
             ;;
         6)
+            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg zabbix-server zabbix-frontend-php apache postgresql fping xfce4 xorg-server xorg-xinit
             ;;
     esac
 }
@@ -181,6 +182,10 @@ configurerZsh()
             cp /local_files/config/serveur-load/etc/zsh/zsh_programs /mnt/etc/zsh/zsh_programs
             ;;
         "admin")
+            cp /local_files/config/serveur-web1/etc/zsh/zshrc /mnt/etc/zsh/zshrc
+            cp /local_files/config/serveur-web1/etc/zsh/zshenv /mnt/etc/zsh/zshenv
+            cp /local_files/config/serveur-web1/etc/zsh/zsh_keybindings /mnt/etc/zsh/zsh_keybindings
+            cp /local_files/config/serveur-web1/etc/zsh/zsh_programs /mnt/etc/zsh/zsh_programs
             ;;
     esac
 }
