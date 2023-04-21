@@ -212,6 +212,8 @@ function configurationsPropres()
             curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/home/admin/bin/run_server" -o /mnt/home/admin/bin/run_server
             arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server,run_server}
             ;;
+        6)
+            echo "192.168.2.2   www.enfip.dgfip" >> /mnt/etc/hosts
     esac
 }
 
