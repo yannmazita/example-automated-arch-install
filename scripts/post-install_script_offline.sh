@@ -172,6 +172,7 @@ function configurationsPropres()
             sudo systemctl enable zabbix-agent.service
             ;;
         "admin")
+            sudo cp /local_files/config/admin/etc/X11/xorg.conf.d/00-keyboard.conf /etc/X11/xorg.conf.d/00-keyboard.conf
             ;;
     esac
 }

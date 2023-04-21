@@ -180,6 +180,7 @@ function configurationsPropres()
             sudo systemctl enable zabbix-agent.service
             ;;
         "admin")
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/admin/etc/X11/xorg.conf.d/00-keyboard.conf" -o /etc/X11/xorg.conf.d/00-keyboard.conf
             ;;
     esac
 }
