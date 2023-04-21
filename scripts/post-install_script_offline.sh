@@ -98,7 +98,7 @@ function configurationsPropres()
             sudo systemctl start gunicorn.service
             sudo systemctl enable gunicorn.service
 
-            sudo cp /local_files/config/serveur-web1/etc/zabbix/zabbix_agent.conf /etc/zabbix/zabbix_agent.conf
+            sudo cp /local_files/config/serveur-web1/etc/zabbix/zabbix_agentd.conf /etc/zabbix/zabbix_agentd.conf
             sudo systemctl start zabbix-agent.service
             sudo systemctl enable zabbix-agent.service
             ;;
@@ -113,7 +113,7 @@ function configurationsPropres()
             sudo systemctl start gunicorn.service
             sudo systemctl enable gunicorn.service
 
-            sudo cp /local_files/config/serveur-web2/etc/zabbix/zabbix_agent.conf /etc/zabbix/zabbix_agent.conf
+            sudo cp /local_files/config/serveur-web2/etc/zabbix/zabbix_agentd.conf /etc/zabbix/zabbix_agentd.conf
             sudo systemctl start zabbix-agent.service
             sudo systemctl enable zabbix-agent.service
             ;;
@@ -154,7 +154,7 @@ function configurationsPropres()
             sudo su -l postgres -c "createuser admin --superuser"
             sudo su -l postgres -c "createdb baseDeDonnees -O admin"
 
-            sudo cp /local_files/config/serveur-bdd/etc/zabbix/zabbix_agent.conf /etc/zabbix/zabbix_agent.conf
+            sudo cp /local_files/config/serveur-bdd/etc/zabbix/zabbix_agentd.conf /etc/zabbix/zabbix_agentd.conf
             sudo systemctl start zabbix-agent.service
             sudo systemctl enable zabbix-agent.service
             ;;
@@ -167,7 +167,7 @@ function configurationsPropres()
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
 
-            sudo cp /local_files/config/serveur-load/etc/zabbix/zabbix_agent.conf /etc/zabbix/zabbix_agent.conf
+            sudo cp /local_files/config/serveur-load/etc/zabbix/zabbix_agentd.conf /etc/zabbix/zabbix_agentd.conf
             sudo systemctl start zabbix-agent.service
             sudo systemctl enable zabbix-agent.service
             ;;
