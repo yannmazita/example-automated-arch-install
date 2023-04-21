@@ -135,18 +135,19 @@ function configurationsPropres()
             sudo systemctl start lighttpd.service
             sudo systemctl enable lighttpd.service
 
-            mysql_install_db --user=mysql  --ldata=/var/lib/mysql/
-            chown -R mysql:mysql /var/lib/mysql
+            sudo ln -s /usr/share/webapps/zabbix /srv/http/zabbix
+
+            sudo mysql_install_db --user=mysql  --ldata=/var/lib/mysql/
+            sudo chown -R mysql:mysql /var/lib/mysql
             sudo systemctl start mariadb.service
             sudo systemctl enable mariadb.service
-            mysql -u root -p -e "create database zabbix character set utf8 collate utf8_bin"
-            mysql -u root -p -e "grant all on zabbix.* to zabbix@localhost identified by 'test'"
-            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/schema.sql
-            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/images.sql
-            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/data.sql
+            sudo mysql -u root -p -e "create database zabbix character set utf8 collate utf8_bin"
+            sudo mysql -u root -p -e "grant all on zabbix.* to zabbix@localhost identified by 'test'"
+            cat /usr/share/zabbix-server/mysql/schema.sql | sudo mysql -u zabbix -p -D zabbix
+            cat /usr/share/zabbix-server/mysql/images.sql | sudo mysql -u zabbix -p -D zabbix
+            cat /usr/share/zabbix-server/mysql/data.sql | sudo mysql -u zabbix -p -D zabbix 
 
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zabbix/zabbix_server.conf" -o /etc/zabbix/zabbix_server.conf
-            ln -s /usr/share/webapps/zabbix /srv/http/zabbix
             sudo systemctl start zabbix-server-mysql.service
             sudo systemctl enable zabbix-server-mysql.service
 

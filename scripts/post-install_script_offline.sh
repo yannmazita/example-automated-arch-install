@@ -132,15 +132,21 @@ function configurationsPropres()
             sudo systemctl start zabbix-server.service
             sudo systemctl enable zabbix-server.service
 
-            mysql_install_db --user=mysql  --ldata=/var/lib/mysql/
-            chown -R mysql:mysql /var/lib/mysql
+            sudo ln -s /usr/share/webapps/zabbix /srv/http/zabbix
+
+            sudo mysql_install_db --user=mysql  --ldata=/var/lib/mysql/
+            sudo chown -R mysql:mysql /var/lib/mysql
             sudo systemctl start mariadb.service
             sudo systemctl enable mariadb.service
-            mysql -u root -p -e "create database zabbix character set utf8 collate utf8_bin"
-            mysql -u root -p -e "grant all on zabbix.* to zabbix@localhost identified by 'test'"
-            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/schema.sql
-            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/images.sql
-            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/data.sql
+            sudo mysql -u root -p -e "create database zabbix character set utf8 collate utf8_bin"
+            sudo mysql -u root -p -e "grant all on zabbix.* to zabbix@localhost identified by 'test'"
+            cat /usr/share/zabbix-server/mysql/schema.sql | sudo mysql -u zabbix -p -D zabbix
+            cat /usr/share/zabbix-server/mysql/images.sql | sudo mysql -u zabbix -p -D zabbix
+            cat /usr/share/zabbix-server/mysql/data.sql | sudo mysql -u zabbix -p -D zabbix 
+
+            sudo cp /local_files/config/serveur-temps/etc/zabbix/zabbix_server.conf -o /etc/zabbix/zabbix_server.conf
+            sudo systemctl start zabbix-server-mysql.service
+            sudo systemctl enable zabbix-server-mysql.service
             ;;
         "serveur-bdd")
             cd /tmp || exit # parce que postgre envoie un message d'erreur inutile
