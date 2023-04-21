@@ -206,6 +206,8 @@ function configurationsPropres()
             echo "export DJANGO_SUPERUSER_EMAIL='admin@admin.admin'" >> /mnt/etc/zsh/zshenv
             arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server,run_server}
             ;;
+        6)
+            echo "192.168.2.2   www.enfip.dgfip" >> /mnt/etc/hosts
     esac
 }
 
