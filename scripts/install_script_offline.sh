@@ -83,7 +83,7 @@ function installerPaquets()
             pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg postgresql python-poetry zabbix-agent
             ;;
         3)
-            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg zabbix-agent
+            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg zabbix-server zabbix-frontend-php mysql lighttpd php-legacy php-legacy-cgi php-legacy-gd fping
             ;;
         4)
             pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg postgresql zabbix-agent
@@ -92,7 +92,7 @@ function installerPaquets()
             pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg haproxy zabbix-agent
             ;;
         6)
-            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg zabbix-server zabbix-frontend-php mysql lighttpd php-legacy php-legacy-cgi php-legacy-gd fping xfce4 xorg-server xorg-xinit
+            pacstrap -K /mnt base base-devel linux linux-firmware sudo grub efibootmgr mkinitcpio man networkmanager virtualbox-guest-utils zsh zsh-completions zsh-syntax-highlighting zsh-autosuggestions neovim git ntp openssh gnupg xfce4 xorg-server xorg-xinit
             ;;
     esac
 }
