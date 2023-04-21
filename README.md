@@ -111,7 +111,7 @@ As of now you HAVE to run
 sudo systemctl restart postgresql.service
 ```
 to make the PostgreSQL database accessible.
-Failing to run this command BEFORE setting up the web servers WILL result in broken web server virtual machines.
+Failure to run this command BEFORE setting up the web servers WILL result in broken web server virtual machines.
 
 ### Admin virtual machine
 To start the GUI use the command:
