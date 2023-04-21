@@ -122,7 +122,7 @@ function configurationsPropres()
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
 
-            sudo cp /local_files/config/serveur-temps/etc/php/php.ini /etc/php/php.ini
+            sudo cp /local_files/config/serveur-temps/etc/php-legacy/php.ini /etc/php-legacy/php.ini
 
             sudo cp /local_files/config/serveur-temps/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
             sudo systemctl start lighttpd.service

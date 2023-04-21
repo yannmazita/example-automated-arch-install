@@ -129,7 +129,7 @@ function configurationsPropres()
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
 
-            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/php/php.ini" -o /etc/php/php.ini
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/php-legacy/php.ini" -o /etc/php-legacy/php.ini
 
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/lighttpd/lighttpd.conf" -o /etc/lighttpd/lighttpd.conf
             sudo systemctl start lighttpd.service
