@@ -102,7 +102,6 @@ to make the PostgreSQL database accessible.
 
 ## To do
 - Configure SSH access.
-- Fix HTTP redirection issues
 - Fix the need to -restart- postgresql.service after every boot.
 - Domain name
 - (DNS server)
