@@ -122,8 +122,6 @@ startxfce4
 ## To do
 - Configure SSH access.
 - Fix the need to -restart- postgresql.service after every boot.
-- Domain name
-- (DNS server)
 - (RAID)
 
 See ./LICENSE for more information about this project's licence.
