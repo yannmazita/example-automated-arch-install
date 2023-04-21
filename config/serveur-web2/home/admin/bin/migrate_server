@@ -1,2 +1,4 @@
 #!/bin/bash
-poetry run python /serv/example-server/src/my_website/manage.py migrate
+cd /serv/example-server/src/my_website
+poetry run python manage.py migrate
+exit
