@@ -44,34 +44,42 @@ Configure 5 virtual machines as follow:
 - 1 CPU, 2048 MB (RAM), 50 GB dynamically allocated (HDD), EFI activated, Arch Linux ISO in disc drive.
 - Boot into a machine with the Arch image.
 
-### Online mode
-You will download everything from Arch mirrors.
+Any Arch Linux image should work. You might have been provided with an Arch image.
+
+
+### Offline mode
+Not really offline. Base packages will be installed from the image, speeding up the process.
+Post-installation still requires an active and unrestricted Internet connection (bridge) to download
+python packages and clone git repos.
+You cannot use this mode with a regular Arch Linux image.
 - Type 
     ```commandline
     loadkeys fr-latin9
-    curl -sL $(curl https://pastebin.com/raw/hBYQ2Umm) > install_script.sh
-    bash install_script.sh
+    bash /local_files/scripts/install_script_offline.sh
     ```
-- Select the machine you want to install (one of 5 virtual machines) then wait for the machine to restart
+- Select the machine you want to install (one of 6 virtual machines) then wait for the machine to restart
 - Log in with admin:master
-- Post installation begins, type password (master) when prompted
+- Post installation begins, type the password (master) when prompted
+- (On the serveur-temps machine you will then have to type the password "test" 5 times)
 - Once you're greeted with
 ```commandline
 OK !
 ```
 you're ready to go.
 
-### Offline mode
-Not really offline, you were provided with an image packing the full base install.
-Some python packages and get repos still need to be downloaded.
+### Online mode
+You have to use this mode if you're using an Arch Linux image from the Internet.
+You can still use this setup process with the Arch Linux image provided (the process will be sped up)
 - Type 
     ```commandline
     loadkeys fr-latin9
-    bash /local_files/scripts/install_script_offline.sh
+    curl -sL $(curl https://pastebin.com/raw/hBYQ2Umm) > install_script.sh
+    bash install_script.sh
     ```
-- Select the machine you want to install (one of 5 virtual machines) then wait for the machine to restart
+- Select the machine you want to install (one of 6 virtual machines) then wait for the machine to restart
 - Log in with admin:master
-- Post installation begins, type password (master) when prompted
+- Post installation begins, type the password (master) when prompted
+- (On the serveur-temps machine you will then have to type the password "test" 5 times)
 - Once you're greeted with
 ```commandline
 OK !
@@ -84,10 +92,14 @@ As of now, to avoid any issue you have to install the virtual machines in this o
 - serveur-bdd (and restart postgresql service)
 - serveur-web{1,2} (and start the servers)
 - serveur-load
+- admin
 
 ### Web server virtual machines
-Starting/Stopping the server is handled by the systemd service gunicorn.service. It automatically starts
-on system boot.
+Starting/Stopping the server is handled by the systemd service gunicorn.service. It automatically starts on system boot.
+Example command to stop the server:
+```commandline
+sudo systemctl stop gunicorn.service
+```
 After changing data models you can run the command:
 ```commandline
 migrate_server
@@ -99,6 +111,13 @@ As of now you HAVE to run
 sudo systemctl restart postgresql.service
 ```
 to make the PostgreSQL database accessible.
+Failing to run this command BEFORE setting up the web servers WILL result in broken web server virtual machines.
+
+### Admin virtual machine
+To start the GUI use the command:
+```commandline
+startxfce4
+```
 
 ## To do
 - Configure SSH access.
