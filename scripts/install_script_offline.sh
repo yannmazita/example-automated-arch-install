@@ -218,7 +218,7 @@ function configurerVirtualBoxGuest()
 
 function preparerPostInstallation()
 {
-    echo "exec bash /home/admin/post-install_script.sh" >> /mnt/etc/zsh/zprofile
+    echo "bash /home/admin/post-install_script_offline.sh" >> /mnt/etc/zsh/zprofile
     # shellcheck disable=2016
     cp /local_files/scripts/post-install_script_offline.sh /mnt/home/admin/
     arch-chroot /mnt chmod u+x /home/admin/post-install_script_offline.sh

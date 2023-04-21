@@ -180,8 +180,6 @@ function configurationsPropres()
             sudo systemctl enable zabbix-agent.service
             ;;
         "admin")
-            sudo systemctl start zabbix-server-pgsql.service
-            sudo systemctl enable zabbix-server-pgsql.service
             ;;
     esac
 }
