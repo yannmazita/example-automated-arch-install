@@ -241,7 +241,7 @@ configurerVirtualBoxGuest
 preparerPostInstallation
 
 cp -r /local_files /mnt/
-cp -r /local_files/config/serveur-web1/admin/bin /mnt/home/admin/
+cp -r /local_files/config/serveur-web1/home/admin/bin /mnt/home/admin/
 arch-chroot /mnt chmod u+x /home/admin/bin/{migrate_server,run_server}
 arch-chroot /mnt chown -R admin:admin /home/admin/
 umount -R /mnt
