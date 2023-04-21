@@ -128,10 +128,6 @@ function configurationsPropres()
             sudo systemctl start lighttpd.service
             sudo systemctl enable lighttpd.service
 
-            sudo cp /local_files/config/serveur-temps/etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf
-            sudo systemctl start zabbix-server.service
-            sudo systemctl enable zabbix-server.service
-
             sudo ln -s /usr/share/webapps/zabbix /srv/http/zabbix
 
             sudo mysql_install_db --user=mysql  --ldata=/var/lib/mysql/
