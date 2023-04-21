@@ -94,9 +94,13 @@ function configurationsPropres()
 
             deployerServeurWeb
 
-            sudo cp /local_files/config/serveur-web1/etc/systemd/system/gunicorn.service
+            sudo cp /local_files/config/serveur-web1/etc/systemd/system/gunicorn.service /etc/systemd/system/gunicorn.service
             sudo systemctl start gunicorn.service
             sudo systemctl enable gunicorn.service
+
+            sudo cp /local_files/config/serveur-web1/etc/zabbix/zabbix_agent.conf /etc/zabbix/zabbix_agent.conf
+            sudo systemctl start zabbix-agent.service
+            sudo systemctl enable zabbix-agent.service
             ;;
         "serveur-web2")
             sudo cp /local_files/config/serveur-web2/etc/ntp.conf /etc/ntp.conf
@@ -105,14 +109,38 @@ function configurationsPropres()
 
             deployerServeurWeb
 
-            sudo cp /local_files/config/serveur-web2/etc/systemd/system/gunicorn.service
+            sudo cp /local_files/config/serveur-web2/etc/systemd/system/gunicorn.service /etc/systemd/system/gunicorn.service
             sudo systemctl start gunicorn.service
             sudo systemctl enable gunicorn.service
+
+            sudo cp /local_files/config/serveur-web2/etc/zabbix/zabbix_agent.conf /etc/zabbix/zabbix_agent.conf
+            sudo systemctl start zabbix-agent.service
+            sudo systemctl enable zabbix-agent.service
             ;;
         "serveur-temps")
             sudo cp /local_files/config/serveur-temps/etc/ntp.conf /etc/ntp.conf
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
+
+            sudo cp /local_files/config/serveur-temps/etc/php/php.ini /etc/php/php.ini
+
+            sudo cp /local_files/config/serveur-temps/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
+            sudo systemctl start lighttpd.service
+            sudo systemctl enable lighttpd.service
+
+            sudo cp /local_files/config/serveur-temps/etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf
+            sudo systemctl start zabbix-server.service
+            sudo systemctl enable zabbix-server.service
+
+            mysql_install_db --user=mysql  --ldata=/var/lib/mysql/
+            chown -R mysql:mysql /var/lib/mysql
+            sudo systemctl start mariadb.service
+            sudo systemctl enable mariadb.service
+            mysql -u root -p -e "create database zabbix character set utf8 collate utf8_bin"
+            mysql -u root -p -e "grant all on zabbix.* to zabbix@localhost identified by 'test'"
+            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/schema.sql
+            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/images.sql
+            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/data.sql
             ;;
         "serveur-bdd")
             cd /tmp || exit # parce que postgre envoie un message d'erreur inutile
@@ -123,19 +151,25 @@ function configurationsPropres()
             sudo systemctl enable postgresql.service
             sudo su -l postgres -c "createuser admin --superuser"
             sudo su -l postgres -c "createdb baseDeDonnees -O admin"
+
+            sudo cp /local_files/config/serveur-bdd/etc/zabbix/zabbix_agent.conf /etc/zabbix/zabbix_agent.conf
+            sudo systemctl start zabbix-agent.service
+            sudo systemctl enable zabbix-agent.service
             ;;
         "serveur-load")
-            sudo cp /local_files/config/serveur-temps/etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg
+            sudo cp /local_files/config/serveur-load/etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg
             sudo systemctl start haproxy.service
             sudo systemctl enable haproxy.service
             
-            sudo cp /local_files/config/serveur-web1/etc/ntp.conf /etc/ntp.conf
+            sudo cp /local_files/config/serveur-load/etc/ntp.conf /etc/ntp.conf
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
+
+            sudo cp /local_files/config/serveur-load/etc/zabbix/zabbix_agent.conf /etc/zabbix/zabbix_agent.conf
+            sudo systemctl start zabbix-agent.service
+            sudo systemctl enable zabbix-agent.service
             ;;
         "admin")
-            sudo systemctl start zabbix-server-pgsql.service
-            sudo systemctl enable zabbix-server-pgsql.service
             ;;
     esac
 }

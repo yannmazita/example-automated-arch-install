@@ -104,6 +104,10 @@ function configurationsPropres()
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/systemd/system/gunicorn.service" -o /etc/systemd/system/gunicorn.service
             sudo systemctl start gunicorn.service
             sudo systemctl enable gunicorn.service
+
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web1/etc/zabbix/zabbix_agentd.conf" -o /etc/zabbix/zabbix_agentd.conf
+            sudo systemctl start zabbix-agent.service
+            sudo systemctl enable zabbix-agent.service
             ;;
         "serveur-web2")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/ntp.conf" -o /etc/ntp.conf
@@ -115,11 +119,37 @@ function configurationsPropres()
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/systemd/system/gunicorn.service" -o /etc/systemd/system/gunicorn.service
             sudo systemctl start gunicorn.service
             sudo systemctl enable gunicorn.service
+
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-web2/etc/zabbix/zabbix_agentd.conf" -o /etc/zabbix/zabbix_agentd.conf
+            sudo systemctl start zabbix-agent.service
+            sudo systemctl enable zabbix-agent.service
             ;;
         "serveur-temps")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/ntp.conf" -o /etc/ntp.conf
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
+
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/php/php.ini" -o /etc/php/php.ini
+
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/lighttpd/lighttpd.conf" -o /etc/lighttpd/lighttpd.conf
+            sudo systemctl start lighttpd.service
+            sudo systemctl enable lighttpd.service
+
+            mysql_install_db --user=mysql  --ldata=/var/lib/mysql/
+            chown -R mysql:mysql /var/lib/mysql
+            sudo systemctl start mariadb.service
+            sudo systemctl enable mariadb.service
+            mysql -u root -p -e "create database zabbix character set utf8 collate utf8_bin"
+            mysql -u root -p -e "grant all on zabbix.* to zabbix@localhost identified by 'test'"
+            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/schema.sql
+            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/images.sql
+            mysql -u zabbix -p -D zabbix < /usr/share/zabbix-server/mysql/data.sql
+
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-temps/etc/zabbix/zabbix_server.conf" -o /etc/zabbix/zabbix_server.conf
+            ln -s /usr/share/webapps/zabbix /srv/http/zabbix
+            sudo systemctl start zabbix-server-mysql.service
+            sudo systemctl enable zabbix-server-mysql.service
+
             ;;
         "serveur-bdd")
             cd /tmp || exit # parce que postgre envoie un message d'erreur inutile
@@ -130,6 +160,10 @@ function configurationsPropres()
             sudo systemctl enable postgresql.service
             sudo su -l postgres -c "createuser admin --superuser"
             sudo su -l postgres -c "createdb baseDeDonnees -O admin"
+
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-bdd/etc/zabbix/zabbix_agentd.conf" -o /etc/zabbix/zabbix_agentd.conf
+            sudo systemctl start zabbix-agent.service
+            sudo systemctl enable zabbix-agent.service
             ;;
         "serveur-load")
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/haxproxy/haproxy.cfg" -o /etc/haproxy/haproxy.cfg
@@ -139,6 +173,10 @@ function configurationsPropres()
             sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/ntp.conf" -o /etc/ntp.conf
             sudo systemctl start ntpd.service
             sudo systemctl enable ntpd.service
+
+            sudo curl "https://raw.githubusercontent.com/yannmazita/example-automated-arch-install/main/config/serveur-load/etc/zabbix/zabbix_agentd.conf" -o /etc/zabbix/zabbix_agentd.conf
+            sudo systemctl start zabbix-agent.service
+            sudo systemctl enable zabbix-agent.service
             ;;
         "admin")
             sudo systemctl start zabbix-server-pgsql.service
