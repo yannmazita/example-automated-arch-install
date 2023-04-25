@@ -40,12 +40,13 @@ Client's IP address is unimportant.
 
 ## Usage
 
-Configure 5 virtual machines as follow:
+Configure every virtual machine except the admin machine as follows:
 - 1 CPU, 2048 MB (RAM), 50 GB dynamically allocated (HDD), EFI activated, Arch Linux ISO in disc drive.
 - Boot into a machine with the Arch image.
 
 Any Arch Linux image should work. You might have been provided with an Arch image.
 
+The admin machine should have the same configuration AND at least 32MB of VRAM and 3GB or RAM if you plan to use the GUI.
 
 ### Offline mode
 Not really offline. Base packages will be installed from the image, speeding up the process.
@@ -90,9 +91,17 @@ you're ready to go.
 As of now, to avoid any issue you have to install the virtual machines in this order:
 - serveur-temps
 - serveur-bdd (and restart postgresql service)
-- serveur-web{1,2} (and start the servers)
+- serveur-web{1,2} (web servers are automatically deployed and started up)
 - serveur-load
 - admin
+
+### Database server virtual machines
+As of now you HAVE to run
+```commandline
+sudo systemctl restart postgresql.service
+```
+to make the PostgreSQL database accessible.
+Failure to run this command BEFORE setting up the web servers WILL result in broken web server virtual machines.
 
 ### Web server virtual machines
 Starting/Stopping the server is handled by the systemd service gunicorn.service. It automatically starts on system boot.
@@ -104,14 +113,6 @@ After changing data models you can run the command:
 ```commandline
 migrate_server
 ```
-
-### Database server virtual machines
-As of now you HAVE to run
-```commandline
-sudo systemctl restart postgresql.service
-```
-to make the PostgreSQL database accessible.
-Failure to run this command BEFORE setting up the web servers WILL result in broken web server virtual machines.
 
 ### Admin virtual machine
 To start the GUI use the command:
